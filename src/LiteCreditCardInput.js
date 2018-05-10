@@ -8,6 +8,7 @@ import {
   LayoutAnimation,
   TouchableOpacity,
   TextInput,
+  ViewPropTypes,
 } from "react-native";
 
 import Icons from "./Icons";
@@ -73,6 +74,7 @@ export default class LiteCreditCardInput extends Component {
     placeholders: PropTypes.object,
 
     inputStyle: Text.propTypes.style,
+    inputContainerStyle: ViewPropTypes.style,
 
     validColor: PropTypes.string,
     invalidColor: PropTypes.string,
@@ -143,7 +145,7 @@ export default class LiteCreditCardInput extends Component {
     const showRightPart = focused && focused !== "number";
 
     return (
-      <View style={s.container}>
+      <View style={[s.container, this.props.inputContainerStyle]}>
         <View style={[
           s.leftPart,
           showRightPart ? s.hidden : s.expanded,
