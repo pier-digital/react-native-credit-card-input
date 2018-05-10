@@ -21,6 +21,7 @@ const s = StyleSheet.create({
   },
   form: {
     marginTop: 20,
+    backgroundColor: "#FFF",
   },
   inputContainer: {
     marginLeft: 20,
@@ -33,7 +34,7 @@ const s = StyleSheet.create({
   },
 });
 
-const CVC_INPUT_WIDTH = 70;
+const CVC_INPUT_WIDTH = 80;
 const EXPIRY_INPUT_WIDTH = CVC_INPUT_WIDTH;
 const CARD_NUMBER_INPUT_WIDTH_OFFSET = 40;
 const CARD_NUMBER_INPUT_WIDTH = Dimensions.get("window").width - EXPIRY_INPUT_WIDTH - CARD_NUMBER_INPUT_WIDTH_OFFSET;
