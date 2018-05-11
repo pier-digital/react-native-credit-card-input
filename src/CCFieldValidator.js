@@ -29,6 +29,7 @@ export default class CCFieldValidator {
       name: !!formValues.name ? "valid" : "incomplete",
       postalCode: this._validatePostalCode(formValues.postalCode),
     }, this._displayedFields);
+    console.log(numberValidation);
 
     return {
       valid: every(values(validationStatuses), status => status === "valid"),

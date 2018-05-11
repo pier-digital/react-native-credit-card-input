@@ -16,14 +16,21 @@ import CCInput from "./CCInput";
 import { InjectedProps } from "./connectToState";
 
 const INFINITE_WIDTH = 1000;
+const COLOR_DARK_SNOW = "#E8E8EE";
+const COLOR_GREY = "#A1A1B3";
 
 const s = StyleSheet.create({
   container: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 12,
+    paddingRight: 12,
+    paddingTop: 10,
+    paddingBottom: 10,
     flexDirection: "row",
     alignItems: "center",
     overflow: "hidden",
+    borderWidth: 1,
+    borderColor: COLOR_DARK_SNOW,
+    borderRadius: 4,
   },
   icon: {
     width: 48,
@@ -85,7 +92,7 @@ export default class LiteCreditCardInput extends Component {
 
   static defaultProps = {
     placeholders: {
-      number: "1234 5678 1234 5678",
+      number: "Número do cartão",
       expiry: "MM/YY",
       cvc: "CVC",
     },
@@ -140,6 +147,12 @@ export default class LiteCreditCardInput extends Component {
     return "placeholder";
   }
 
+  _maxLength = () => {
+    const { focused, values: { type } } = this.props;
+    console.log(type);
+    return (type === "american-express") ? 17 : 19;
+  }
+
   render() {
     const { focused, values: { number }, inputStyle, status: { number: numberStatus } } = this.props;
     const showRightPart = focused && focused !== "number";
@@ -151,6 +164,8 @@ export default class LiteCreditCardInput extends Component {
           showRightPart ? s.hidden : s.expanded,
         ]}>
           <CCInput {...this._inputProps("number")}
+            maxLength={this._maxLength()}
+            placeholderColor={COLOR_GREY}
             keyboardType="numeric"
             containerStyle={s.numberInput} />
         </View>
@@ -164,7 +179,9 @@ export default class LiteCreditCardInput extends Component {
           <TouchableOpacity onPress={this._focusNumber}
             style={s.last4}>
             <View pointerEvents={"none"}>
-              <CCInput field="last4"
+              <CCInput
+                field="last4"
+                placeholderColor={COLOR_GREY}
                 keyboardType="numeric"
                 value={ numberStatus === "valid" ? number.substr(number.length - 4, 4) : "" }
                 inputStyle={[s.input, inputStyle]}
@@ -172,9 +189,11 @@ export default class LiteCreditCardInput extends Component {
             </View>
           </TouchableOpacity>
           <CCInput {...this._inputProps("expiry")}
+            placeholderColor={COLOR_GREY}
             keyboardType="numeric"
             containerStyle={s.expiryInput} />
           <CCInput {...this._inputProps("cvc")}
+            placeholderColor={COLOR_GREY}
             keyboardType="numeric"
             containerStyle={s.cvcInput} />
         </View>

@@ -9,9 +9,11 @@ import {
   ViewPropTypes,
 } from "react-native";
 
+const COLOR_BLACK = "#303042";
 const s = StyleSheet.create({
   baseInputStyle: {
-    color: "black",
+    color: COLOR_BLACK,
+    fontSize: 17,
   },
 });
 
@@ -70,7 +72,7 @@ export default class CCInput extends Component {
     const { label, value, placeholder, status, keyboardType,
             containerStyle, inputStyle, labelStyle,
             validColor, invalidColor, placeholderColor,
-            additionalInputProps } = this.props;
+            additionalInputProps, maxLength } = this.props;
     return (
       <TouchableOpacity onPress={this.focus}
         activeOpacity={0.99}>
@@ -81,6 +83,7 @@ export default class CCInput extends Component {
             keyboardType={keyboardType}
             autoCapitalise="words"
             autoCorrect={false}
+            maxLength={maxLength}
             style={[
               s.baseInputStyle,
               inputStyle,
