@@ -15,13 +15,15 @@ import CreditCard from "./CardView";
 import CCInput from "./CCInput";
 import { InjectedProps } from "./connectToState";
 
+const COLOR_WHITE = "#FFF";
 const s = StyleSheet.create({
   container: {
     alignItems: "center",
   },
   form: {
-    marginTop: 20,
-    backgroundColor: "#FFF",
+    marginTop: 40,
+    paddingLeft: 20,
+    backgroundColor: COLOR_WHITE,
   },
   inputContainer: {
     marginLeft: 20,
@@ -34,19 +36,18 @@ const s = StyleSheet.create({
   },
 });
 
-const CVC_INPUT_WIDTH = 80;
+const CVC_INPUT_WIDTH = 100;
 const EXPIRY_INPUT_WIDTH = CVC_INPUT_WIDTH;
-const CARD_NUMBER_INPUT_WIDTH_OFFSET = 40;
+const CARD_NUMBER_INPUT_WIDTH_OFFSET = 0;
 const CARD_NUMBER_INPUT_WIDTH = Dimensions.get("window").width - EXPIRY_INPUT_WIDTH - CARD_NUMBER_INPUT_WIDTH_OFFSET;
 const NAME_INPUT_WIDTH = CARD_NUMBER_INPUT_WIDTH;
-const PREVIOUS_FIELD_OFFSET = 40;
+const PREVIOUS_FIELD_OFFSET = 0;
 const POSTAL_CODE_INPUT_WIDTH = 120;
 
 /* eslint react/prop-types: 0 */ // https://github.com/yannickcr/eslint-plugin-react/issues/106
 export default class CreditCardInput extends Component {
   static propTypes = {
     ...InjectedProps,
-    labels: PropTypes.object,
     placeholders: PropTypes.object,
 
     labelStyle: Text.propTypes.style,
@@ -70,18 +71,11 @@ export default class CreditCardInput extends Component {
 
   static defaultProps = {
     cardViewSize: {},
-    labels: {
-      name: "CARDHOLDER'S NAME",
-      number: "CARD NUMBER",
-      expiry: "EXPIRY",
-      cvc: "CVC/CCV",
-      postalCode: "POSTAL CODE",
-    },
     placeholders: {
-      name: "Full Name",
-      number: "1234 5678 1234 5678",
-      expiry: "MM/YY",
-      cvc: "CVC",
+      name: "Nome no cartão",
+      number: "Número do cartão",
+      expiry: "MM/AA",
+      cvc: "CVV",
       postalCode: "34567",
     },
     inputContainerStyle: {
@@ -110,7 +104,7 @@ export default class CreditCardInput extends Component {
     NativeModules.UIManager.measureLayoutRelativeToParent(nodeHandle,
       e => { throw e; },
       x => {
-        scrollResponder.scrollTo({ x: Math.max(x - PREVIOUS_FIELD_OFFSET, 0), animated: true });
+        scrollResponder.scrollTo({ x: Math.max(x - PREVIOUS_FIELD_OFFSET), animated: true });
         this.refs[field].focus();
       });
   }
@@ -125,11 +119,9 @@ export default class CreditCardInput extends Component {
 
     return {
       inputStyle: [s.input, inputStyle],
-      labelStyle: [s.inputLabel, labelStyle],
       validColor, invalidColor, placeholderColor,
       ref: field, field,
 
-      label: labels[field],
       placeholder: placeholders[field],
       value: values[field],
       status: status[field],
@@ -139,6 +131,15 @@ export default class CreditCardInput extends Component {
       additionalInputProps: additionalInputsProps[field],
     };
   };
+
+  _maxLength = () => {
+    const { focused, values: { type } } = this.props;
+    return (type === "american-express") ? 17 : 19;
+  }
+  _maxLengthCVC = () => {
+    const { focused, values: { type } } = this.props;
+    return (type === "american-express") ? 4 : 3;
+  }
 
   render() {
     const {
@@ -168,13 +169,16 @@ export default class CreditCardInput extends Component {
           showsHorizontalScrollIndicator={false}
           style={s.form}>
           <CCInput {...this._inputProps("number")}
+            maxLength={this._maxLength()}
             keyboardType="numeric"
             containerStyle={[s.inputContainer, inputContainerStyle, { width: CARD_NUMBER_INPUT_WIDTH }]} />
           <CCInput {...this._inputProps("expiry")}
+            maxLength={5}
             keyboardType="numeric"
             containerStyle={[s.inputContainer, inputContainerStyle, { width: EXPIRY_INPUT_WIDTH }]} />
           { requiresCVC &&
             <CCInput {...this._inputProps("cvc")}
+              maxLength={this._maxLengthCVC()}
               keyboardType="numeric"
               containerStyle={[s.inputContainer, inputContainerStyle, { width: CVC_INPUT_WIDTH }]} /> }
           { requiresName &&

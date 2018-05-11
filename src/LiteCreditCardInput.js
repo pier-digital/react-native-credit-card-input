@@ -94,7 +94,7 @@ export default class LiteCreditCardInput extends Component {
     placeholders: {
       number: "Número do cartão",
       expiry: "MM/YY",
-      cvc: "CVC",
+      cvc: "CVV",
     },
     validColor: "",
     invalidColor: "red",
