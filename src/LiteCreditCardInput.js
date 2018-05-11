@@ -149,7 +149,6 @@ export default class LiteCreditCardInput extends Component {
 
   _maxLength = () => {
     const { focused, values: { type } } = this.props;
-    console.log(type);
     return (type === "american-express") ? 17 : 19;
   }
 
