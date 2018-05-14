@@ -3,12 +3,11 @@ import pick from "lodash.pick";
 import values from "lodash.values";
 import every from "lodash.every";
 
-const toStatus = validation => {
+const toStatus = (validation) => {
   return validation.isValid ? "valid" :
-         validation.isPotentiallyValid ? "incomplete" :
-         "invalid";
+    validation.isPotentiallyValid ? "incomplete" :
+      "invalid";
 };
-
 const FALLBACK_CARD = { gaps: [4, 8, 12], lengths: [16], code: { size: 3 } };
 export default class CCFieldValidator {
   constructor(displayedFields, validatePostalCode) {
@@ -26,7 +25,7 @@ export default class CCFieldValidator {
       number: toStatus(numberValidation),
       expiry: toStatus(expiryValidation),
       cvc: toStatus(cvcValidation),
-      name: !!formValues.name ? "valid" : "incomplete",
+      name: formValues.name.trim().split(" ").length > 1 ? "valid" : "incomplete",
       postalCode: this._validatePostalCode(formValues.postalCode),
     }, this._displayedFields);
 

@@ -2,6 +2,25 @@ import valid from "card-validator";
 import { removeNonNumber, removeLeadingSpaces } from "./Utilities";
 import pick from "lodash.pick";
 
+valid.creditCardType.removeCard(valid.creditCardType.types.MAESTRO);
+valid.creditCardType.removeCard(valid.creditCardType.types.JCB);
+valid.creditCardType.removeCard(valid.creditCardType.types.UNIONPAY);
+valid.creditCardType.removeCard(valid.creditCardType.types.MIR);
+valid.creditCardType.removeCard(valid.creditCardType.types.DISCOVER);
+valid.creditCardType.addCard({
+  niceType: "Elo",
+  type: "elo",
+  prefixPattern: /^(4011(78|79)|43(1274|8935)|45(1416|7393|763(1|2))|50(4175|6699|67[0-7][0-9]|9000)|627780|63(6297|6368)|650(03([^4])|04([0-9])|05(0|1)|4(0[5-9]|3[0-9]|8[5-9]|9[0-9])|5([0-2][0-9]|3[0-8])|9([2-6][0-9]|7[0-8])|541|700|720|901)|651652|655000|655021)$/,
+  exactPattern: /^(4011(78|79)|43(1274|8935)|45(1416|7393|763(1|2))|50(4175|6699|67[0-7][0-9]|9000)|627780|63(6297|6368)|650(03([^4])|04([0-9])|05(0|1)|4(0[5-9]|3[0-9]|8[5-9]|9[0-9])|5([0-2][0-9]|3[0-8])|9([2-6][0-9]|7[0-8])|541|700|720|901)|651652|655000|655021)$/,
+  gaps: [4, 8, 12],
+  lengths: [16],
+  code: {
+    name: "CVV",
+    size: 3,
+  },
+});
+valid.creditCardType.changeOrder("elo", 0);
+
 const limitLength = (string = "", maxLength) => string.substr(0, maxLength);
 const addGaps = (string = "", gaps) => {
   const offsets = [0].concat(gaps).concat([string.length]);

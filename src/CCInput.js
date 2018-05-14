@@ -55,8 +55,10 @@ export default class CCInput extends Component {
     additionalInputProps: {},
   };
 
-  componentWillReceiveProps = newProps => {
-    const { status, value, onBecomeEmpty, onBecomeValid, field } = this.props;
+  componentWillReceiveProps = (newProps) => {
+    const {
+      status, value, onBecomeEmpty, onBecomeValid, field,
+    } = this.props;
     const { status: newStatus, value: newValue } = newProps;
 
     if (value !== "" && newValue === "") onBecomeEmpty(field);
@@ -69,17 +71,22 @@ export default class CCInput extends Component {
   _onChange = value => this.props.onChange(this.props.field, value);
 
   render() {
-    const { label, value, placeholder, status, keyboardType,
-            containerStyle, inputStyle, labelStyle,
-            validColor, invalidColor, placeholderColor,
-            additionalInputProps, maxLength } = this.props;
+    const {
+      label, value, placeholder, status, keyboardType,
+      containerStyle, inputStyle, labelStyle,
+      validColor, invalidColor, placeholderColor,
+      additionalInputProps, maxLength,
+    } = this.props;
     return (
-      <TouchableOpacity onPress={this.focus}
+      <TouchableOpacity
+        onPress={this.focus}
         activeOpacity={0.99}>
         <View style={[containerStyle]}>
           { !!label && <Text style={[labelStyle]}>{label}</Text>}
-          <TextInput ref="input"
+          <TextInput
+            ref="input"
             {...additionalInputProps}
+            autoCapitalize="characters"
             keyboardType={keyboardType}
             autoCapitalise="words"
             autoCorrect={false}
@@ -91,7 +98,7 @@ export default class CCInput extends Component {
               (invalidColor && status === "invalid") ? { color: invalidColor } :
               {}),
             ]}
-            underlineColorAndroid={"transparent"}
+            underlineColorAndroid="transparent"
             placeholderTextColor={placeholderColor}
             placeholder={placeholder}
             value={value}
