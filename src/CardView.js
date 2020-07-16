@@ -11,19 +11,39 @@ import {
 
 import defaultIcons from "./Icons";
 import FlipCard from "react-native-flip-card";
-import cardBackground from "../images/card-front.png";
+import cardBackground from "../../../src/assets/images/creditcard/card-background-pier.png";
 
 const BASE_SIZE = { width: 327, height: 192 };
 
 const s = StyleSheet.create({
-  cardContainer: {
-    resizeMode: "contain",
-  },
+  cardContainer: {},
   cardFace: {},
+  content: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    marginHorizontal: 32,
+    marginVertical: 24,
+  },
   icon: {
     width: 60,
     height: 40,
     resizeMode: "contain",
+  },
+  iconContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginLeft: 275,
+  },
+  nameExpireContainer: {
+    marginVertical: 24,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  cvcContainer: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    marginTop: 88,
+    marginHorizontal: 56,
   },
   baseText: {
     color: "rgba(255, 255, 255, 0.8)",
@@ -36,22 +56,14 @@ const s = StyleSheet.create({
     fontWeight: "bold",
     color: "rgba(255, 255, 255, 1)",
   },
-  number: {
+  font14: {
+    fontSize: 14,
+  },
+  font16: {
+    fontSize: 16,
+  },
+  font18: {
     fontSize: 18,
-  },
-  name: {
-    fontSize: 14,
-  },
-  expiry: {
-    fontSize: 14,
-  },
-  amexCVC: {
-    fontSize: 16,
-    top: 73,
-    right: 32,
-  },
-  cvc: {
-    fontSize: 16,
   },
 });
 
@@ -133,29 +145,16 @@ export default class CardView extends Component {
             style={[BASE_SIZE, s.cardFace, transform]}
             source={imageFront}
           >
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "space-between",
-                marginHorizontal: 32,
-                marginVertical: 24,
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-end",
-                  marginLeft: 275,
-                }}
-              >
+            <View style={s.content}>
+              <View style={s.iconContainer}>
                 <Image style={[s.icon]} source={Icons[brand]} />
               </View>
               <View style={{ marginTop: 24 }}>
                 <Text
                   style={[
                     s.baseText,
+                    s.font18,
                     { fontFamily },
-                    s.number,
                     !number && s.placeholder,
                     focused === "number" && s.focused,
                   ]}
@@ -163,18 +162,12 @@ export default class CardView extends Component {
                   {!number ? placeholder.number : number}
                 </Text>
               </View>
-              <View
-                style={{
-                  marginVertical: 24,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
+              <View style={s.nameExpireContainer}>
                 <Text
                   style={[
                     s.baseText,
+                    s.font14,
                     { fontFamily },
-                    s.name,
                     !name && s.placeholder,
                     focused === "name" && s.focused,
                   ]}
@@ -185,8 +178,8 @@ export default class CardView extends Component {
                 <Text
                   style={[
                     s.baseText,
+                    s.font14,
                     { fontFamily },
-                    s.expiry,
                     !expiry && s.placeholder,
                     focused === "expiry" && s.focused,
                   ]}
@@ -200,18 +193,11 @@ export default class CardView extends Component {
             style={[BASE_SIZE, s.cardFace, transform]}
             source={imageBack}
           >
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "space-between",
-                marginTop: 88,
-                marginHorizontal: 56,
-              }}
-            >
+            <View style={s.cvcContainer}>
               <Text
                 style={[
+                  s.font16,
                   s.baseText,
-                  s.cvc,
                   !cvc && s.placeholder,
                   focused === "cvc" && s.focused,
                 ]}
