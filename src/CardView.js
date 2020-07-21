@@ -11,7 +11,7 @@ import {
 
 import defaultIcons from "./Icons";
 import FlipCard from "react-native-flip-card";
-import cardBackground from "../../../src/assets/images/creditcard/card-background-pier.png";
+import cardBackground from "../images/card-background-pier.png";
 
 const BASE_SIZE = { width: 327, height: 192 };
 
