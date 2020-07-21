@@ -35,15 +35,6 @@ const s = StyleSheet.create({
   },
 });
 
-const DEFAULT_WIDTH = Dimensions.get("window").width - 48;
-const CVC_INPUT_WIDTH = DEFAULT_WIDTH;
-const EXPIRY_INPUT_WIDTH = DEFAULT_WIDTH;
-const CARD_NUMBER_INPUT_WIDTH_OFFSET = 0;
-const CARD_NUMBER_INPUT_WIDTH = DEFAULT_WIDTH;
-const NAME_INPUT_WIDTH = DEFAULT_WIDTH;
-const PREVIOUS_FIELD_OFFSET = 0;
-const POSTAL_CODE_INPUT_WIDTH = 120;
-
 /* eslint react/prop-types: 0 // https://github.com/yannickcr/eslint-plugin-react/issues/106 */
 export default class CreditCardInput extends Component {
   static propTypes = {
@@ -69,6 +60,7 @@ export default class CreditCardInput extends Component {
     additionalInputsProps: PropTypes.objectOf(
       PropTypes.shape(TextInput.propTypes)
     ),
+    inputMargin: PropTypes.number,
   };
 
   static defaultProps = {
@@ -84,17 +76,36 @@ export default class CreditCardInput extends Component {
       borderBottomWidth: 1,
       borderBottomColor: "black",
     },
-    validColor: "",
+    validColor: "black",
     invalidColor: "red",
     placeholderColor: "gray",
     allowScroll: false,
     additionalInputsProps: {},
+    inputMargin: 24,
   };
 
   componentDidMount = () => this._focus(this.props.focused);
 
   componentWillReceiveProps = (newProps) => {
     if (this.props.focused !== newProps.focused) this._focus(newProps.focused);
+  };
+
+  _inputWidth = (field) => {
+    if (!field) return;
+
+    const { inputMargin } = this.props;
+    const DEFAULT_WIDTH = Dimensions.get("window").width - 2 * inputMargin;
+
+    widths = {
+      CVC_INPUT_WIDTH: DEFAULT_WIDTH,
+      EXPIRY_INPUT_WIDTH: DEFAULT_WIDTH,
+      CARD_NUMBER_INPUT_WIDTH_OFFSET: 0,
+      CARD_NUMBER_INPUT_WIDTH: DEFAULT_WIDTH,
+      NAME_INPUT_WIDTH: DEFAULT_WIDTH,
+      PREVIOUS_FIELD_OFFSET: 0,
+      POSTAL_CODE_INPUT_WIDTH: 120,
+    };
+    return widths[field];
   };
 
   _focus = (field) => {
@@ -110,7 +121,7 @@ export default class CreditCardInput extends Component {
       },
       (x) => {
         scrollResponder.scrollTo({
-          x: Math.max(x - PREVIOUS_FIELD_OFFSET),
+          x: Math.max(x - this._inputWidth("PREVIOUS_FIELD_OFFSET")),
           animated: true,
         });
         this.refs[field].focus();
@@ -217,7 +228,7 @@ export default class CreditCardInput extends Component {
             containerStyle={[
               s.inputContainer,
               inputContainerStyle,
-              { width: CARD_NUMBER_INPUT_WIDTH },
+              { width: this._inputWidth("CARD_NUMBER_INPUT_WIDTH") },
             ]}
           />
           <CCInput
@@ -227,7 +238,7 @@ export default class CreditCardInput extends Component {
             containerStyle={[
               s.inputContainer,
               inputContainerStyle,
-              { width: EXPIRY_INPUT_WIDTH },
+              { width: this._inputWidth("EXPIRY_INPUT_WIDTH") },
             ]}
           />
           {requiresCVC && (
@@ -238,7 +249,7 @@ export default class CreditCardInput extends Component {
               containerStyle={[
                 s.inputContainer,
                 inputContainerStyle,
-                { width: CVC_INPUT_WIDTH },
+                { width: this._inputWidth("CVC_INPUT_WIDTH") },
               ]}
             />
           )}
@@ -248,7 +259,7 @@ export default class CreditCardInput extends Component {
               containerStyle={[
                 s.inputContainer,
                 inputContainerStyle,
-                { width: NAME_INPUT_WIDTH },
+                { width: this._inputWidth("NAME_INPUT_WIDTH") },
               ]}
             />
           )}
@@ -259,7 +270,7 @@ export default class CreditCardInput extends Component {
               containerStyle={[
                 s.inputContainer,
                 inputContainerStyle,
-                { width: POSTAL_CODE_INPUT_WIDTH },
+                { width: this._inputWidth("POSTAL_CODE_INPUT_WIDTH") },
               ]}
             />
           )}

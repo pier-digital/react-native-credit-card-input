@@ -32,7 +32,7 @@ const s = StyleSheet.create({
   iconContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    marginLeft: 275,
+    marginLeft: BASE_SIZE.width - 60,
   },
   nameExpireContainer: {
     marginVertical: 24,
