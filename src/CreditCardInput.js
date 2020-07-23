@@ -24,9 +24,6 @@ const s = StyleSheet.create({
     marginTop: 40,
     backgroundColor: COLOR_WHITE,
   },
-  inputContainer: {
-    marginLeft: 20,
-  },
   inputLabel: {
     fontWeight: "bold",
   },
@@ -226,7 +223,6 @@ export default class CreditCardInput extends Component {
             maxLength={this._maxLength()}
             keyboardType="numeric"
             containerStyle={[
-              s.inputContainer,
               inputContainerStyle,
               { width: this._inputWidth("CARD_NUMBER_INPUT_WIDTH") },
             ]}
@@ -236,7 +232,6 @@ export default class CreditCardInput extends Component {
             maxLength={5}
             keyboardType="numeric"
             containerStyle={[
-              s.inputContainer,
               inputContainerStyle,
               { width: this._inputWidth("EXPIRY_INPUT_WIDTH") },
             ]}
@@ -247,7 +242,6 @@ export default class CreditCardInput extends Component {
               maxLength={this._maxLengthCVC()}
               keyboardType="numeric"
               containerStyle={[
-                s.inputContainer,
                 inputContainerStyle,
                 { width: this._inputWidth("CVC_INPUT_WIDTH") },
               ]}
@@ -257,7 +251,6 @@ export default class CreditCardInput extends Component {
             <CCInput
               {...this._inputProps("name")}
               containerStyle={[
-                s.inputContainer,
                 inputContainerStyle,
                 { width: this._inputWidth("NAME_INPUT_WIDTH") },
               ]}
@@ -268,7 +261,6 @@ export default class CreditCardInput extends Component {
               {...this._inputProps("postalCode")}
               keyboardType="numeric"
               containerStyle={[
-                s.inputContainer,
                 inputContainerStyle,
                 { width: this._inputWidth("POSTAL_CODE_INPUT_WIDTH") },
               ]}
